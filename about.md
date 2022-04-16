@@ -1,4 +1,4 @@
 # About
 
-This is where you put the contents of your *About* page. Like all your pages, it's in [Markdown](https://guides.github.com/features/mastering-markdown/) format.
+A communication & RF engineer. I like soft-defined radio. Wish to make friends with you :)
 
