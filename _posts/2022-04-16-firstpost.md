@@ -1,7 +1,7 @@
 # 在 Windows 环境下使用 Matlab + Hackrf
-HackRF 一直是我认为最好的学习或者玩 SDR 的工具，常用的开发或者应用方式一般是在 linux 下玩一玩，或者配合 Octave 进行数据处理，更初级的可能就是在 windows 环境下用诸如 SDRsharp 这样的 SDR 软件来收听一下。随着工作越来越多的应用 Matlab 进行通信建模，我也很希望能在 windows 环境下用 matlab 来进行操作。终于，在 github 上找到这样一个开源的好项目（https://github.com/kit-cel/simulink-hackrf） 能支持我们在 windows 下通过 simulink 对 Hackrf 进行操作。另外 Youtube 上也有一个视频进行了安装演示(https://www.youtube.com/watch?v=7dtikuo3BSw)。
+HackRF 一直是我认为最好的学习或者玩 SDR 的工具，常用的开发或者应用方式一般是在 linux 下进行，或配合 Octave 进行数据处理，更初级的可能就是在 windows 环境下用诸如 SDRsharp 这样的 SDR 软件来收听各种频道。随着工作越来越多的应用 Matlab 进行通信建模，我很希望能在 windows 环境下用 matlab 来进行开发. 终于，在 github 上找到这样一个开源的好项目<https://github.com/kit-cel/simulink-hackrf> 能支持我们在 windows 下通过 simulink 对 Hackrf 进行操作. 另外 Youtube 上也有一个视频进行了安装演示<https://www.youtube.com/watch?v=7dtikuo3BSw>
 
-但是因为时间久远，这个项目看起来已经没有人在维护了，网上关于这块儿的讨论也很少，甚至连安装成功的教程也少之又少，大部分安装问题都没有人进行回复了。因此，我花了一个周末按照 Youtube 上的演示进行了安装，经过无数踩坑后终于安装成功。因此在这里做个记录，也为有兴趣的朋友提供一些避坑指南：Hope u are enjoying
+但是因为时间久远，这个项目看起来已经没有人在维护了，网上关于这块儿的讨论也很少，甚至连安装成功的教程也少之又少，大部分安装问题都没有人进行回复了. 因此，我花了一个周末按照 Youtube 上的演示进行了安装，经过无数踩坑后终于安装成功. 因此在这里做个记录，也为有兴趣的朋友提供一些避坑指南. **Hope u are enjoying**
 
 ## 软件及库版本要求
 根据我的安装历程，我发现这个安装对新版本的支持度很差，**很多重要的 step 都需要采用和视频中一样的安装版本来进行，甚至连 Matlab 也不例外**。当然对 Matlab 版本的要求主要是因为对 Matlab 中 MinGW64 版本的要求，而不同的 Matlab 版本所支持的 MinGW64 版本也是不同的。**不过当安装编译完成后，我们可以用新版的 Matlab 进行操作,甚至从我看到的结果 Matlab R2019a 能更快速的处理数据，在 10Msps 下 Hackrf 不会报出 OOOOOO 的错误**
@@ -19,19 +19,19 @@ HackRF 一直是我认为最好的学习或者玩 SDR 的工具，常用的开�
 
 ### 3. 在 matlab 中安装 MinGW64 附加功能 (tdm64-gcc-4.9.2)
 
-3.1 可惜由于时间久远，Matlab 自带的附加功能管理包已经不支持直接安装 MinGW64 了，需要手动进行安装，参考这篇 blog (https://blog.csdn.net/weixin_44217573/article/details/105951236） 。首先我们下载 tdm64-gcc-4.9.2　的安装文件　（https://sourceforge.net/projects/tdm-gcc/files/TDM-GCC%20Installer/Previous/1.1309.0/)  直接运行安装即可，注意**不要**勾选下方的 Check for updated files... 选项。然后安装完成后在系统环境变量中添加 【变量名：WM_MINGW64_LOC 变量值：D:\TDM-GCC-64 (换成你的路径）】。安装完成后在 Matlab 中运行 mex -setup 看到以下界面即安装完成：
+3.1 可惜由于时间久远，Matlab 自带的附加功能管理包已经不支持直接安装 MinGW64 了，需要手动进行安装，参考这篇 blog <https://blog.csdn.net/weixin_44217573/article/details/105951236>. 首先我们下载 tdm64-gcc-4.9.2　的安装文件 <https://sourceforge.net/projects/tdm-gcc/files/TDM-GCC%20Installer/Previous/1.1309.0/>  直接运行安装即可，注意**不要**勾选下方的 Check for updated files... 选项。然后安装完成后在系统环境变量中添加 【变量名：WM_MINGW64_LOC 变量值：D:\TDM-GCC-64 (换成你的路径）】。安装完成后在 Matlab 中运行 mex -setup 看到以下界面即安装完成：
 
 ![TDM-GCC-64](https://user-images.githubusercontent.com/40487487/163658277-4e00672f-fa99-4998-b9ce-cbe1bdb0c006.PNG)
 
 ### 4. 安装 mingw64-posix-6.4.0
 
-4.1 这一步也无需详细介绍，网上有很多安装教程，唯一需要注意的是，一定要安装 posix 版本 （版本号我没有试过，也许新的版本也行，如果有试过的朋友可以留言确认一下）！如果在线安装不方便的话可以选择离线安装，可以参考这篇 blog （https://blog.csdn.net/ZHAOJUNWEI08/article/details/86602120） 。安装完成后添加系统环境变量，【变量名：PATH 变量值：C:\Program Files\mingw64\bin (换成你的路径）】 安装完成后可以在 cmd 中执行 gcc -v，看到以下界面即安装完成
+4.1 这一步也无需详细介绍，网上有很多安装教程，唯一需要注意的是，一定要安装 posix 版本 （版本号我没有试过，也许新的版本也行，如果有试过的朋友可以留言确认一下）！如果在线安装不方便的话可以选择离线安装，可以参考这篇 blog <https://blog.csdn.net/ZHAOJUNWEI08/article/details/86602120> 。安装完成后添加系统环境变量，【变量名：PATH 变量值：C:\Program Files\mingw64\bin (换成你的路径）】 安装完成后可以在 cmd 中执行 gcc -v，看到以下界面即安装完成
 
 ![gcc](https://user-images.githubusercontent.com/40487487/163658046-4d176592-6d96-4d87-ad72-70ecb60dc815.PNG)
 
 ### 5. 安装 cmake 3.6.2
 
-5.1 这一步主要是注意正确的版本号,直接下载 Run 就可以了。虽然我没有验证过安装其他版本会不会出问题，但是这篇 blog 中 (https://blog.csdn.net/angu5630/article/details/112726326) 提到一定要用 3.6 版本的 cmake。Anyway，就按照他说的来吧，可惜这篇 blog 看起来也半途而废了。安装包可以在这里找 (https://download.csdn.net/download/icbm/9646285)，我在文后也会附上所有需要的安装包
+5.1 这一步主要是注意正确的版本号,直接下载 Run 就可以了。虽然我没有验证过安装其他版本会不会出问题，但是这篇 blog 中 <https://blog.csdn.net/angu5630/article/details/112726326> 提到一定要用 3.6 版本的 cmake。Anyway，就按照他说的来吧，可惜这篇 blog 看起来也半途而废了。安装包可以在这里找 <https://download.csdn.net/download/icbm/9646285>，我在文后也会附上所有需要的安装包
 
 ### 6. 安装 cygwin64
 
@@ -39,19 +39,19 @@ HackRF 一直是我认为最好的学习或者玩 SDR 的工具，常用的开�
 
 ### 7. 下载 libusb
 
-7.1 直接在 github 上下载即可 （https://github.com/libusb/libusb/releases） ，这个对版本没有要求，下载后解压先放在某个路径下即可。
+7.1 直接在 github 上下载即可 <https://github.com/libusb/libusb/releases> ，这个对版本没有要求，下载后解压先放在某个路径下即可。
 
 7.2 将 D:\libusb\include\libusb-1.0 (换成你的路径）中的 libusb.h copy 到 complier 的 include 中，即之前安装的 C:\Program Files\mingw64\x86_64-w64-mingw32\include 中。
 
 ### 8. 下载 libhackrf
 
-8.1 直接在 github 上下载即可 （https://github.com/greatscottgadgets/hackrf） ，这个只需要 hackrf-master -> host 中的 libhackrf。同样下载后解压先放在某个路径下即可。
+8.1 直接在 github 上下载即可 <https://github.com/greatscottgadgets/hackrf> ，这个只需要 hackrf-master -> host 中的 libhackrf。同样下载后解压先放在某个路径下即可。
 
 8.2 将整个 libusb 文件夹 copy 到解压后的 libhackrf 文件夹中
 
 ### 9. 下载 simulink-hackrf-1.0
 
-9.1 直接在 github 上下载即可 （https://github.com/kit-cel/simulink-hackrf/releases/tag/v1.0） ，解压后再在 D:\simulink-hackrf-1.0\ 路径中(换成你的路径）创建一个名为 deps 的新文件夹
+9.1 直接在 github 上下载即可 <https://github.com/kit-cel/simulink-hackrf/releases/tag/v1.0> ，解压后再在 D:\simulink-hackrf-1.0\ 路径中(换成你的路径）创建一个名为 deps 的新文件夹
 
 ### 10. Run cmake
 
@@ -101,6 +101,6 @@ HackRF 一直是我认为最好的学习或者玩 SDR 的工具，常用的开�
 
 这里有所有需要的安装包，当然 matlab 的就算了...太大了... 另外再抵制一下限速收费的百度网盘！支持开源！
 
-transfer link: https://cowtransfer.com/s/2c0178772e934a or access [ cowtransfer.com ] and input extract code: 066ef3 to download;
+transfer link: <https://cowtransfer.com/s/2c0178772e934a> or access [ cowtransfer.com ] and input extract code: 066ef3 to download;
 
 ---- The End ---
