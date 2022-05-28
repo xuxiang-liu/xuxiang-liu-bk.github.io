@@ -1,7 +1,5 @@
 # Simulink-hackrf 源码初识
 
-# Simple guide to understand the simulink-hackrf source code
-
 尝试跑了 simulink-hackrf 之后，我对它具体的实现方式十分感兴趣，于是简单的研究了一下：发现他主要是通过在 simulink 中的 S 函数来调用 hackrf.c 中的函数来实现的，于是也借此机会对 simulink 中的 S 函数做了一个了解。当然更深入的理解 simulink-hackrf 其实主要是理解 hackrf.c. 这部分内容会留到后面再去深入研究，这篇 blog 就作为一个通过 S 函数来学习 simulink-hackrf 的入口吧
 
 这篇 blog 的主要内容有：
